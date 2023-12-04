@@ -26,12 +26,12 @@ class UserLogin(APIView):
             password=request.data.get("password")
             if username == "" or password == "": #blank data validating
                 logger.info("Please enter Username and password!")
-                return Response({"status":True,"msg":"Please enter Username and password!"})
+                return Response({"status":False,"msg":"Please enter Username and password!"})
             # Authenticates the user using the provided username and password
             user = authenticate(username=username, password=password)
             if user is None:
                 logger.info("invalid credential!")
-                return Response({"status":True,"msg":"invalid Credential!"})
+                return Response({"status":False,"msg":"invalid Credential!"})
             else:
                 # Generates access and refresh tokens for the authenticated user
                 refresh = RefreshToken.for_user(user)
