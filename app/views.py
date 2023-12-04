@@ -65,31 +65,13 @@ class VendorView(APIView):
             if not user.is_superuser: # Checks if the user is a superuser for authorization
                 logger.info(" unauthorized access!")
                 return Response({"status": False, "msg": "unauthorized access!"}, status=status.HTTP_403_FORBIDDEN)
-           
-            serializer = VendorCreateSerializer(data=request.data)
-            
-            
-            if serializer.is_valid():
-                vender_code = serializer.validated_data['vender_code']
-                if Vendors.objects.filter(vender_code=vender_code).exists():
-                    logger.info(f"{user} -{vender_code} this vendor already exists!")
-                    return Response(
-                        {"status": False, "msg": f"{vender_code} this vendor already exists!"},
-                        status=status.HTTP_409_CONFLICT
-                    )
 
+            serializer = VendorCreateSerializer(data=request.data)
+            if serializer.is_valid():
                 serializer.save()
-                logger.info(f"{user} - vendor {serializer.data['name']} created Successfully!")
-                return Response(
-                    {"status": True, "msg": f"vendor {serializer.data['name']} created Successfully!"},
-                    status.HTTP_201_CREATED
-                )
+                return Response({"status": True, "msg": f"Vendor {serializer.data['name']} created successfully!"}, status.HTTP_201_CREATED)
             else:
-                logger.info(f"{user} - all required fields!")
-                return Response(
-                    {"status": False, "msg": "Please fill all required fields!", "errors": serializer.errors},
-                    status.HTTP_400_BAD_REQUEST
-                )
+                return Response({"status": False,"errors": serializer.errors},status.HTTP_400_BAD_REQUEST)
 
         except : # Handles exceptions and provides an appropriate response in case of errors
             logger.exception(f"{request} Something Went wrong!") #log history  
@@ -184,14 +166,6 @@ class Purchase_Order(APIView):
             # Creates a new purchase order entry in the database with the provided information
             serializer = POCreationSerializer(data=request.data)
             if serializer.is_valid():
-                po_number = serializer.validated_data['po_number']
-                # Check if the PO with the given po_number already exists
-                if PO.objects.filter(po_number=po_number).exists():
-                    logger.info(f"{user} -{po_number} this vendor already exists!")
-                    return Response(
-                        {"status": False, "msg": f"{po_number} this vendor already exists!"},
-                        status=status.HTTP_409_CONFLICT
-                    )
                 serializer.save() #saving data in PO table
                 logger.info(f"{user} -PO {serializer.data['po_number']} created Successfully!")
                 return Response(
@@ -200,7 +174,7 @@ class Purchase_Order(APIView):
             else:
                 logger.info(f"{user} - all required fields!")
                 return Response(
-                    {"status": False, "msg": "Please fill all required fields!", "errors": serializer.errors},
+                    {"status": False,"errors": serializer.errors},
                     status.HTTP_400_BAD_REQUEST
                 )
        
@@ -226,7 +200,7 @@ class Purchase_Order(APIView):
             return Response({"status": True, "data": serializer.data})
         except : # Handles exceptions and provides an appropriate response in case of errors
             logger.exception(f"{request} Something Went wrong!") #log history  
-            return Response({"status": False, "msg": "Something went wrong!"}, status.HTTP_404_NOT_FOUND)
+            return Response({"status": False, "msg": "Something went wrong!"},status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class PO_operations(APIView):
     permission_classes = (IsAuthenticated,)
@@ -368,7 +342,7 @@ class POStatusOperation(APIView):
                 vendor=po.vendor_id,
                 status='completed'
             ).count()
-            
+
             total_vendor_pos = PO.objects.filter(
                 vendor=po.vendor_id,
             ).count()

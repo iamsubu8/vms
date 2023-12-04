@@ -118,30 +118,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #Database connection with mysql
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'vms',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306', 
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_vms',
+        'NAME': 'vms',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        },
+        'PORT': '3306', 
     }
 }
+
+
 
 
 #JWT configuratioins

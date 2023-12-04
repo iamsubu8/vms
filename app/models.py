@@ -23,7 +23,7 @@ class PO(models.Model):
     delivery_date=models.DateTimeField()
     items=models.JSONField(null=True)
     quantity=models.IntegerField()
-    status=models.CharField(max_length=50,default="pending")
+    status=models.CharField(max_length=50,default="pending") #pending, completed, canceled
     quality_rating=models.FloatField(null=True)
     issue_date=models.DateTimeField(null=True)
     acknowledgment_date=models.DateTimeField(null=True)

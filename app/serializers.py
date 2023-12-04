@@ -4,9 +4,14 @@ from django.utils import timezone
 
 
 class VendorCreateSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=255, validators=[])
     class Meta:
         model = Vendors
-        fields = ['name', 'contact_details', 'address', 'vender_code']
+        fields = ['contact_details', 'address', 'vender_code','name']
+    def validate_name(self, value):
+        if not value:
+            raise serializers.ValidationError("This filed required!")
+        return value
 
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +27,7 @@ class POCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PO
-        fields = ['po_number', 'vendor', 'delivery_date', 'items', 'quantity', 'issue_date']
+        fields = "__all__"
     
     def create(self, validated_data):
         validated_data['issue_date'] = timezone.now()
@@ -37,3 +42,5 @@ class VendorPerformanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendors
         fields = ['name', 'on_time_delivery_rate', 'quality_rating_avg', 'average_response_time', 'fulfillment_rate']
+
+        

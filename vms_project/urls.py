@@ -17,5 +17,5 @@ urlpatterns = [
     path('api/statusupdate/<int:po_id>', POStatusOperation.as_view()),
     path('api/purchase_orders/<int:po_id>/acknowledge', POAcknowledgeDateUpdate.as_view()),
     path('api/vendors/<int:vendor_id>/performance', VendorPerformanceEvaluation.as_view()),
-    # path('', include(router.urls)),
+    
 ]
