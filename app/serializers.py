@@ -34,6 +34,8 @@ class POCreationSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class POSerializer(serializers.ModelSerializer):
+    vendor_name = serializers.CharField(source='vendor.name', read_only=True)
+    
     class Meta:
         model = PO
         fields = "__all__"

@@ -197,7 +197,6 @@ class Purchase_Order(APIView):
             else:
                 POInfo = PO.objects.all() #fetching data from database
             serializer = POSerializer(POInfo, many=True)
-
             logger.info(f"{user} all PO data accessed!")
             return Response({"status": True, "data": serializer.data})
         except : # Handles exceptions and provides an appropriate response in case of errors
