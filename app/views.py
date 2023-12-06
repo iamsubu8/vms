@@ -33,6 +33,7 @@ class UserLogin(APIView):
                 logger.info("invalid credential!")
                 return Response({"status":False,"msg":"invalid Credential!"})
             else:
+                userInfo=User.objects.get(username=username)
                 # Generates access and refresh tokens for the authenticated user
                 refresh = RefreshToken.for_user(user)
                 refresh_token = str(refresh)
@@ -45,6 +46,7 @@ class UserLogin(APIView):
                 expires_in = str(new_time.strftime("%y-%m-%d %H:%M:%S"))
             logger.info(f"{username} logged in successfully!")
             return Response ({
+                    'name':f"{userInfo.first_name} {userInfo.last_name}",
                     'status': True,
                     'token':access_token ,
                     'login time':login_date,
