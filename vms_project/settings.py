@@ -121,6 +121,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+                    'sql_mode': 'traditional',
+                },
         'NAME': 'vms',
         'USER': 'root',
         'PASSWORD': '',
@@ -128,9 +131,6 @@ DATABASES = {
         'PORT': '3306', 
     }
 }
-
-
-
 
 #JWT configuratioins
 REST_FRAMEWORK = {

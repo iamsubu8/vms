@@ -290,7 +290,7 @@ class POAcknowledgeDateUpdate(APIView):
                 vendor_id=po.vendor_id,
                 acknowledgment_date__isnull=False
             )
-            
+
             #calculation of response time
             response_times=[(order.acknowledgment_date - order.issue_date).total_seconds() for order in completed_pos_with_acknowledgment]
             # print(response_times)
